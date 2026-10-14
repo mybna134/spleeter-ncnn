@@ -1,0 +1,5 @@
+models/
+*.tar.bz2
+__pycache__/
+.venv/
+.uv-cache/
