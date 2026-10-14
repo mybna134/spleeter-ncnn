@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Export Deezer's 5-stem checkpoint as five NCNN FP16 logits networks."""
 
 import argparse

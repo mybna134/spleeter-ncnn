@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Convert Spleeter 2-stem and 4-stem ONNX exports to NCNN FP16 weights."""
 
 import argparse

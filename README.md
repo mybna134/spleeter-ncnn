@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: GPL-3.0-only -->
+
 # Spleeter → NCNN FP16
 
 已将 Deezer Spleeter 的 **2、4、5 声部**预训练网络转换为 NCNN。产物位于 `models/{2,4,5}stems-fp16/`，每个声部各有 `.param` 与 `.bin` 文件。模型权重以 FP16 存储，输入输出仍为 FP32。
@@ -48,3 +50,9 @@ estimates = probabilities * mix_magnitude
 随后按 [Spleeter 的计算](https://github.com/deezer/spleeter/blob/master/spleeter/model/__init__.py)做跨声部 soft ratio mask：对每个声部的幅度估计平方，加上 `1e-10 / 声部数`，除以全部声部估计平方之和再加 `1e-10`。完整音频分离还需要在宿主程序中完成 STFT、分段、相位复用、频带补齐和逆 STFT。2 声部与 4、5 声部的网络使用不同的激活函数，产物不能混用。[Spleeter 配置](https://github.com/deezer/spleeter/tree/master/spleeter/resources)规定采样率 44.1 kHz、周期 Hann 窗 4096 点、hop 1024 点、每段 512 帧以及前 1024 个频率 bin。4 声部的[导出说明](https://huggingface.co/Best-Practice/spleeter-4stems-onnx)包含音频重建代码。
 
 FP16 权重存储不保证目标设备执行 FP16 算术，后者取决于 NCNN 构建和硬件。当前只完成模型转换与结构检查，尚未做 NCNN 与 TensorFlow 数值对照或音频分离质量测量。
+
+## 许可证与来源
+
+本仓库自编写的转换脚本及本文档以 [GNU GPL v3.0（仅此版本）](LICENSE) 发布。复制、修改或分发这些文件时，请遵守 GPLv3 的规定，并保留相应的版权与许可证声明。
+
+`upstream/` 是 Deezer Spleeter 的上游副本，其代码仍按 [Deezer 的 MIT 许可证](upstream/LICENSE) 发布。上游示例音频和其他资源不自动采用 MIT 或 GPLv3。模型文件由第三方模型和 Deezer 预训练权重转换而来；它们的来源、所适用的原始许可及需要保留的署名列于 [第三方许可与署名](THIRD_PARTY_NOTICES.md)。根目录的 GPLv3 不会取代这些原始许可。`models/` 当前被 `.gitignore` 排除；若单独发布转换后的模型，应同时提供该文件、相关许可证文本、署名和转换说明。
